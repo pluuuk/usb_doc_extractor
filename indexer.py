@@ -34,23 +34,32 @@ def ext_filt(filename):
             or filename.endswith('.pptx'))
 
 
-def copy(f, dest):
-    print('copying: ',f)
+def copy(files, dest):
     if not os.path.exists(dest):
         os.makedirs(dest)
-    shutil.copy2(f, dest)
+    for f in files: 
+        print('copying: ',f, end="\n")
+        shutil.copy2(f, dest)
 
 def search_copy(drive):
     info = win32api.GetVolumeInformation(drive)
     drive_path = os.path.join(os.path.expanduser('~'),"_".join(str(i) for i in info))
     os.makedirs(drive_path, exist_ok=True)
-    threads = []
     files = crawl_drive(drive, ext_filt)
+    indexed_files = {}
     for (rel_path, f) in files:
         dest_path = os.path.join(drive_path,rel_path)
-        t = threading.Thread(target=copy, args=(f, dest_path))
-        threads.append(t)
+        if dest_path in indexed_files:
+            indexed_files[dest_path].append(f)
+        else:
+            indexed_files[dest_path] = []
+            indexed_files[dest_path].append(f)
+    for dest,fs in indexed_files.items():
+        t = threading.Thread(target=copy, args=(fs, dest))
+        t.daemon = True
         t.start()
+
+
 
 def poll_usb(prev):
     curr = locate_usb()

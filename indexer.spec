@@ -24,4 +24,4 @@ exe = EXE(pyz,
           debug=True,
           strip=False,
           upx=False,
-          console=True )
+          console=False )
