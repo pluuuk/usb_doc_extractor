@@ -54,9 +54,7 @@ def search_copy(drive):
         t.start()
 
 def poll_usb(prev):
-    curr = locate_usb()
-    if len(prev) != len(curr):
-        n = list(set(curr).difference(set(prev)))
+    n = list(set(curr).difference(set(prev)))
         for drive in n:
             print(drive)
             try:
