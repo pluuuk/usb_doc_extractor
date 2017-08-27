@@ -4,7 +4,6 @@ block_cipher = None
 
 
 a = Analysis(['indexer.py'],
-             pathex=['C:\\Users\\afrivera\\git\\usbrogue'],
              binaries=[],
              datas=[],
              hiddenimports=[],
