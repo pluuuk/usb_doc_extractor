@@ -39,7 +39,6 @@ def copy(f, dest):
     if not os.path.exists(dest):
         os.makedirs(dest)
     shutil.copy2(f, dest)
-    time.sleep(0.25)
 
 def search_copy(drive):
     info = win32api.GetVolumeInformation(drive)
@@ -54,14 +53,15 @@ def search_copy(drive):
         t.start()
 
 def poll_usb(prev):
+    curr = locate_usb()
     n = list(set(curr).difference(set(prev)))
-        for drive in n:
-            print(drive)
-            try:
-                search_copy(drive)
-            except Exception as e:
-                logging.exception(e)
-                continue
+    for drive in n:
+        print(drive)
+        try:
+            search_copy(drive)
+        except Exception as e:
+            logging.exception(e)
+            continue
     time.sleep(2)
     return curr
 
