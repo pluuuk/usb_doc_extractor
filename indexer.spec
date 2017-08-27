@@ -21,7 +21,7 @@ exe = EXE(pyz,
           a.zipfiles,
           a.datas,
           name='indexer',
-          debug=True,
+          debug=False,
           strip=False,
           upx=False,
           console=False )
